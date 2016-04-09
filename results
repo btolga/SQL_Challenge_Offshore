@@ -1,0 +1,212 @@
+
+RESULTS:
+
+
++--------------------+
+| Tables_in_offshore |
++--------------------+
+| countriesNW        |
+| edges_1DNW         |
+| node_countriesNW   |
+| nodesNW            |
++--------------------+
++------------+--------------+---------------------+
+| country_id | country_code | country_name        |
++------------+--------------+---------------------+
+|          1 | AF           | Afghanistan         |
+|          2 | AX           | Akrotiri            |
+|          3 | AL           | Albania             |
+|          4 | AG           | Algeria             |
+|          5 | AQ           | American Samoa      |
+|          6 | AN           | Andorra             |
+|          7 | AO           | Angola              |
+|          8 | AV           | Anguilla            |
+|          9 | AY           | Antarctica          |
+|         10 | AC           | Antigua and Barbuda |
++------------+--------------+---------------------+
++-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
+| Unique_ID | Entity_ID1 | Entity_ID2 | description_                  | date_from           | date_to             | direction | chinesePos | linktype |
++-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
+|    171253 |     102767 |     124901 | Assistant Secretary           | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ????       | EO       |
+|    336222 |     118470 |     167808 | Auditor                       | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ??         | EO       |
+|    336223 |      48124 |     167808 | Auditor                       | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ??         | EO       |
+|    336224 |      61547 |     167808 | Auditor                       | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ??         | EO       |
+|    336256 |      89570 |     123436 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
+|    336272 |     102537 |     129198 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
+|    336433 |     116314 |     167376 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
+|    336434 |      47285 |     167376 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
+|    336435 |     117588 |     167381 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
+|    336439 |      45928 |     167378 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
++-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
++---------+--------------+---------------+------------+
+| NODEID1 | country_code | country_name  | country_id |
++---------+--------------+---------------+------------+
+|  118720 | HK           | Hong Kong     |        110 |
+|  118722 | HK           | Hong Kong     |        110 |
+|  118725 | TW           | Taiwan        |        241 |
+|  118726 | TW           | Taiwan        |        241 |
+|  118753 | HK           | Hong Kong     |        110 |
+|  118754 | GK           | Guernsey      |        103 |
+|  118760 | TW           | Taiwan        |        241 |
+|  118761 | SN           | Singapore     |        221 |
+|  118770 | US           | United States |        261 |
+|  118772 | HK           | Hong Kong     |        110 |
++---------+--------------+---------------+------------+
++-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
+| Unique_ID | subtypes | Description_                         | searchField                           | status | desc_status | type | desc_company_type | inc_dat | dorm_dat | juris | desc_jurisdiction | completeAddresses | agencyID | tax_stat | tax_stat_description |
++-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
+|     51113 | OFFICER  | Bisbro Investment Company Ltd.       | Bisbro Investment Company Ltd.        |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51114 | OFFICER  | Mohamed Mustafa Bin A Mohamed Ismail | Mohamed Mustafa Bin A Mohamed Ismail  |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51115 | OFFICER  | Teh Hong Eng                         | Teh Hong Eng                          |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51116 | OFFICER  | New Sights Enterprises Limited       | New Sights Enterprises Limited        |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51117 | OFFICER  | Yong Meow Mui                        | Yong Meow Mui                         |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51118 | OFFICER  | CHEN GUOSHUN                         | CHEN GUOSHUN                          |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     60877 | OFFICER  | Chan Yat Ying                        | Chan Yat Ying                         |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     60879 | OFFICER  | Melvyn Tan Kim Leng                  | Melvyn Tan Kim Leng                   |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     60880 | OFFICER  | Shu Watt Man Kay                     | Shu Watt Man Kay                      |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
+|     51119 | OFFICER  | Caruso Antonio                       | Caruso Antonio                        |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
++-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
++------------------------+--------+
+| country_name           | counts |
++------------------------+--------+
+| British Virgin Islands |  72677 |
+| Not identified         |  65912 |
+| Hong Kong              |  40406 |
+| Taiwan                 |  29327 |
+| China                  |  17776 |
+| Russia                 |  11734 |
+| United States          |  11490 |
+| Singapore              |  10615 |
+| United Kingdom         |  10117 |
+| Samoa                  |   8778 |
+| Indonesia              |   5404 |
+| Cyprus                 |   4718 |
+| Malaysia               |   3807 |
+| Cayman Islands         |   3144 |
+| Panama                 |   2829 |
+| Canada                 |   1848 |
+| Ireland                |   1719 |
+| Latvia                 |   1695 |
+| Thailand               |   1464 |
+| Australia              |   1425 |
+| United Arab Emirates   |   1305 |
+| India                  |   1180 |
+| Seychelles             |   1157 |
+| Cook Islands           |   1118 |
+| Japan                  |   1004 |
++------------------------+--------+
++------------+
+| directions |
++------------+
+|          1 |
+|          0 |
++------------+
++------------------+
+| COUNT(Unique_ID) |
++------------------+
+|           562015 |
++------------------+
++------------------+
+| COUNT(Unique_ID) |
++------------------+
+|           278693 |
++------------------+
++---------+--------------+-----------+------------+-------------------------------+
+| NODEID1 | country_name | Unique_ID | Entity_ID1 | description_                  |
++---------+--------------+-----------+------------+-------------------------------+
+|  118811 | Singapore    |     89813 |     118811 | Beneficial Owner              |
+|  118821 | Hong Kong    |    336858 |     118821 | Authorised Person / Signatory |
+|  118821 | Hong Kong    |     89612 |     118821 | Beneficial Owner              |
+|  118854 | Hong Kong    |     89684 |     118854 | Beneficial Owner              |
+|  118886 | Indonesia    |     89887 |     118886 | Beneficial Owner              |
+|  119115 | Singapore    |    454375 |     119115 | Master Client                 |
+|  119170 | Hong Kong    |    448058 |     119170 | Master Client                 |
+|  119170 | Hong Kong    |    449026 |     119170 | Master Client                 |
+|  119219 | Indonesia    |    458978 |     119219 | Master Client                 |
+|  119238 | Hong Kong    |    445091 |     119238 | Master Client                 |
++---------+--------------+-----------+------------+-------------------------------+
++------------------------+--------+
+| country_name           | counts |
++------------------------+--------+
+| British Virgin Islands |  11403 |
+| Not identified         |   3049 |
+| Hong Kong              |   1513 |
+| United Kingdom         |    931 |
+| Russia                 |    771 |
+| Samoa                  |    516 |
+| United States          |    349 |
+| Cyprus                 |    331 |
+| Singapore              |    263 |
+| Panama                 |    262 |
+| Cayman Islands         |    262 |
+| Ireland                |    194 |
+| Latvia                 |    158 |
+| China                  |    107 |
+| Canada                 |     92 |
+| Jersey                 |     59 |
+| Seychelles             |     42 |
+| United Arab Emirates   |     41 |
+| Saint Kitts and Nevis  |     31 |
+| Czech Republic         |     23 |
++------------------------+--------+
++------------------------+--------+
+| country_name           | counts |
++------------------------+--------+
+| Hong Kong              |   5558 |
+| Singapore              |   2123 |
+| United Kingdom         |    987 |
+| Not identified         |    927 |
+| Taiwan                 |    875 |
+| United States          |    688 |
+| Cyprus                 |    602 |
+| British Virgin Islands |    497 |
+| Indonesia              |    495 |
+| Russia                 |    492 |
+| Panama                 |    260 |
+| China                  |    206 |
+| Ireland                |    197 |
+| Latvia                 |    160 |
+| Malaysia               |    123 |
+| Thailand               |    100 |
+| Australia              |     98 |
+| Canada                 |     96 |
+| Cook Islands           |     94 |
+| Jersey                 |     76 |
++------------------------+--------+
++------------------------+--------+
+| country_name           | counts |
++------------------------+--------+
+| Not identified         |    237 |
+| British Virgin Islands |    186 |
+| Singapore              |    127 |
+| Cayman Islands         |     86 |
+| Cook Islands           |     71 |
+| Samoa                  |     12 |
+| United States          |     12 |
+| Malaysia               |      9 |
+| Hong Kong              |      8 |
+| Switzerland            |      2 |
+| Mauritius              |      2 |
+| Saint Lucia            |      1 |
+| Fiji                   |      1 |
+| Bermuda                |      1 |
+| Jersey                 |      1 |
++------------------------+--------+
++------------------------+--------+
+| country_name           | counts |
++------------------------+--------+
+| Not identified         |    237 |
+| British Virgin Islands |    187 |
+| Singapore              |    127 |
+| Cayman Islands         |     86 |
+| Cook Islands           |     71 |
+| Samoa                  |     12 |
+| United States          |     12 |
+| Malaysia               |      9 |
+| Hong Kong              |      8 |
+| Switzerland            |      2 |
+| Mauritius              |      2 |
+| Fiji                   |      1 |
+| Jersey                 |      1 |
+| Bermuda                |      1 |
++------------------------+--------+
