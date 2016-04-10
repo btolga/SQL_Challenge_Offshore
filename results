@@ -176,6 +176,12 @@ SELECT CAST((SELECT (SELECT COUNT(Unique_ID) FROM edges_1DNW)*2) /
 We see that the graph is not dense at all with very few edges present out of all the possible edges between all the nodes. 
 This indicates that for the most part, there are no relations between any two entities (individuals/companies).
 
+# Question 3: Which are the top countries for which an individual or an entity had incoming transaction flow, i.e., safe havens?
+
+
+First a summary for the table to get this info. 
+Table for the nodes for which the edges are going into. (their country names and
+the description of the edge going into them.)
 
 
 +---------+--------------+-----------+------------+-------------------------------+
@@ -192,6 +198,9 @@ This indicates that for the most part, there are no relations between any two en
 |  119219 | Indonesia    |    458978 |     119219 | Master Client                 |
 |  119238 | Hong Kong    |    445091 |     119238 | Master Client                 |
 +---------+--------------+-----------+------------+-------------------------------+
+
+TOP 20 COUNTIRES FOR TRANSACTIONS GOING IN:
+
 +------------------------+--------+
 | country_name           | counts |
 +------------------------+--------+
@@ -216,6 +225,9 @@ This indicates that for the most part, there are no relations between any two en
 | Saint Kitts and Nevis  |     31 |
 | Czech Republic         |     23 |
 +------------------------+--------+
+
+TOP 20 COUNTRIES TRANSACTIONS GOING OUT, those likely to be seeking safe-havens:
+
 +------------------------+--------+
 | country_name           | counts |
 +------------------------+--------+
@@ -240,41 +252,7 @@ This indicates that for the most part, there are no relations between any two en
 | Cook Islands           |     94 |
 | Jersey                 |     76 |
 +------------------------+--------+
-+------------------------+--------+
-| country_name           | counts |
-+------------------------+--------+
-| Not identified         |    237 |
-| British Virgin Islands |    186 |
-| Singapore              |    127 |
-| Cayman Islands         |     86 |
-| Cook Islands           |     71 |
-| Samoa                  |     12 |
-| United States          |     12 |
-| Malaysia               |      9 |
-| Hong Kong              |      8 |
-| Switzerland            |      2 |
-| Mauritius              |      2 |
-| Saint Lucia            |      1 |
-| Fiji                   |      1 |
-| Bermuda                |      1 |
-| Jersey                 |      1 |
-+------------------------+--------+
-+------------------------+--------+
-| country_name           | counts |
-+------------------------+--------+
-| Not identified         |    237 |
-| British Virgin Islands |    187 |
-| Singapore              |    127 |
-| Cayman Islands         |     86 |
-| Cook Islands           |     71 |
-| Samoa                  |     12 |
-| United States          |     12 |
-| Malaysia               |      9 |
-| Hong Kong              |      8 |
-| Switzerland            |      2 |
-| Mauritius              |      2 |
-| Fiji                   |      1 |
-| Jersey                 |      1 |
-| Bermuda                |      1 |
-+------------------------+--------+
+
+
+
 [Finished in 539.2s]
