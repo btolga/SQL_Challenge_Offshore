@@ -29,6 +29,12 @@ SELECT DISTINCT direction AS directions FROM edges_1DNW;
 SELECT COUNT(Unique_ID) FROM edges_1DNW;
 SELECT COUNT(Unique_ID) FROM nodesNW;
 
+# Density of the Graph:
+
+SELECT CAST((SELECT (SELECT COUNT(Unique_ID) FROM edges_1DNW)*2) /
+	(SELECT (SELECT (SELECT COUNT(Unique_ID) FROM nodesNW) - 1) * (SELECT COUNT(Unique_ID) FROM nodesNW)) AS decimal(10,9))
+	 AS density;
+
 
 
 SELECT node1.NODEID1, node1.country_name, edge1.Unique_ID, edge1.Entity_ID1, edge1.description_  
@@ -104,7 +110,7 @@ GROUP BY Entity_ID1
 ORDER BY counts DESC
 LIMIT 20;
 
-SELECT Entity_ID2, description_, COUNT(*) AS counts FROM edges_1DNW
+SELECT Entity_ID2, COUNT(*) AS counts FROM edges_1DNW
 GROUP BY Entity_ID2
 ORDER BY counts DESC
 LIMIT 20;

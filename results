@@ -1,7 +1,9 @@
-
 RESULTS:
 
+mysql: [Warning] Using a password on the command line interface can be insecure.
 
+
+Tables in the DataBase
 +--------------------+
 | Tables_in_offshore |
 +--------------------+
@@ -10,6 +12,8 @@ RESULTS:
 | node_countriesNW   |
 | nodesNW            |
 +--------------------+
+
+First Rows of Countries Table
 +------------+--------------+---------------------+
 | country_id | country_code | country_name        |
 +------------+--------------+---------------------+
@@ -24,6 +28,9 @@ RESULTS:
 |          9 | AY           | Antarctica          |
 |         10 | AC           | Antigua and Barbuda |
 +------------+--------------+---------------------+
+
+First Rows of Edges Table
+
 +-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
 | Unique_ID | Entity_ID1 | Entity_ID2 | description_                  | date_from           | date_to             | direction | chinesePos | linktype |
 +-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
@@ -38,6 +45,10 @@ RESULTS:
 |    336435 |     117588 |     167381 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
 |    336439 |      45928 |     167378 | Authorised Person / Signatory | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |         1 | ???/???    | EO       |
 +-----------+------------+------------+-------------------------------+---------------------+---------------------+-----------+------------+----------+
+
+
+First Rows of Node Countries Table:
+
 +---------+--------------+---------------+------------+
 | NODEID1 | country_code | country_name  | country_id |
 +---------+--------------+---------------+------------+
@@ -52,6 +63,10 @@ RESULTS:
 |  118770 | US           | United States |        261 |
 |  118772 | HK           | Hong Kong     |        110 |
 +---------+--------------+---------------+------------+
+
+
+First Rows of Nodes Table:
+
 +-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
 | Unique_ID | subtypes | Description_                         | searchField                           | status | desc_status | type | desc_company_type | inc_dat | dorm_dat | juris | desc_jurisdiction | completeAddresses | agencyID | tax_stat | tax_stat_description |
 +-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
@@ -66,6 +81,16 @@ RESULTS:
 |     60880 | OFFICER  | Shu Watt Man Kay                     | Shu Watt Man Kay                      |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
 |     51119 | OFFICER  | Caruso Antonio                       | Caruso Antonio                        |      0 |             |      |                   |       0 |        0 |     0 |                   |                   |        1 |        0 |                      |
 +-----------+----------+--------------------------------------+---------------------------------------+--------+-------------+------+-------------------+---------+----------+-------+-------------------+-------------------+----------+----------+----------------------+
+
+
+## Question 1: COUNTRIES MOST NODES ARE FROM (i.e., countries with 10,000 nodes or more)
+
+SELECT country_name, COUNT(*) AS counts 
+FROM node_countriesNW
+GROUP BY country_name
+HAVING COUNT(*) > 1000
+ORDER BY counts DESC;
+
 +------------------------+--------+
 | country_name           | counts |
 +------------------------+--------+
@@ -95,22 +120,64 @@ RESULTS:
 | Cook Islands           |   1118 |
 | Japan                  |   1004 |
 +------------------------+--------+
+
+
+## Now that we know the countries with most transactions lets see 
+## how many of these nodes have edges going out vs going in 
+
+# Question 2: Number of edge directions
+
+SELECT DISTINCT direction AS directions FROM edges_1DNW;
+
 +------------+
 | directions |
 +------------+
 |          1 |
 |          0 |
 +------------+
+
+0 means indegree and 1 means outdegree (?) 
+
+# Question 3: Distinct Edges and Nodes
+
+SELECT COUNT(Unique_ID) FROM edges_1DNW;
+SELECT COUNT(Unique_ID) FROM nodesNW;
+
+Number of Edges:
 +------------------+
 | COUNT(Unique_ID) |
 +------------------+
 |           562015 |
 +------------------+
+
+Number of Nodes:
 +------------------+
 | COUNT(Unique_ID) |
 +------------------+
 |           278693 |
 +------------------+
+
+Let's calculate the density of the graph:
+
+Density = 2*(Edge Count) / (Node Count)*(Node Count - 1)
+
+# Density of the Graph:
+
+SELECT CAST((SELECT (SELECT COUNT(Unique_ID) FROM edges_1DNW)*2) /
+	(SELECT (SELECT (SELECT COUNT(Unique_ID) FROM nodesNW) - 1) * (SELECT COUNT(Unique_ID) FROM nodesNW)) AS decimal(10,9))
+	 AS density;
+
++-------------+
+| density     |
++-------------+
+| 0.000014471 |
++-------------+
+
+We see that the graph is not dense at all with very few edges present out of all the possible edges between all the nodes. 
+This indicates that for the most part, there are no relations between any two entities (individuals/companies).
+
+
+
 +---------+--------------+-----------+------------+-------------------------------+
 | NODEID1 | country_name | Unique_ID | Entity_ID1 | description_                  |
 +---------+--------------+-----------+------------+-------------------------------+
@@ -210,3 +277,4 @@ RESULTS:
 | Jersey                 |      1 |
 | Bermuda                |      1 |
 +------------------------+--------+
+[Finished in 539.2s]
