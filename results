@@ -85,11 +85,11 @@ First Rows of Nodes Table:
 
 ## Question 1: COUNTRIES MOST NODES ARE FROM (i.e., countries with 10,000 nodes or more)
 
-SELECT country_name, COUNT(*) AS counts 
-FROM node_countriesNW
-GROUP BY country_name
-HAVING COUNT(*) > 1000
-ORDER BY counts DESC;
+	SELECT country_name, COUNT(*) AS counts 
+	FROM node_countriesNW
+	GROUP BY country_name
+	HAVING COUNT(*) > 1000
+	ORDER BY counts DESC;
 
 +------------------------+--------+
 | country_name           | counts |
@@ -127,7 +127,7 @@ ORDER BY counts DESC;
 
 # Question 2: Number of edge directions
 
-SELECT DISTINCT direction AS directions FROM edges_1DNW;
+	SELECT DISTINCT direction AS directions FROM edges_1DNW;
 
 +------------+
 | directions |
@@ -140,8 +140,8 @@ SELECT DISTINCT direction AS directions FROM edges_1DNW;
 
 # Question 3: Distinct Edges and Nodes
 
-SELECT COUNT(Unique_ID) FROM edges_1DNW;
-SELECT COUNT(Unique_ID) FROM nodesNW;
+	SELECT COUNT(Unique_ID) FROM edges_1DNW;
+	SELECT COUNT(Unique_ID) FROM nodesNW;
 
 Number of Edges:
 +------------------+
@@ -163,9 +163,9 @@ Density = 2*(Edge Count) / (Node Count)*(Node Count - 1)
 
 # Density of the Graph:
 
-SELECT CAST((SELECT (SELECT COUNT(Unique_ID) FROM edges_1DNW)*2) /
-	(SELECT (SELECT (SELECT COUNT(Unique_ID) FROM nodesNW) - 1) * (SELECT COUNT(Unique_ID) FROM nodesNW)) AS decimal(10,9))
-	 AS density;
+	SELECT CAST((SELECT (SELECT COUNT(Unique_ID) FROM edges_1DNW)*2) /
+		(SELECT (SELECT (SELECT COUNT(Unique_ID) FROM nodesNW) - 1) * (SELECT COUNT(Unique_ID) FROM nodesNW)) AS decimal(10,9))
+		 AS density;
 
 +-------------+
 | density     |
@@ -184,6 +184,15 @@ Table for the nodes for which the edges are going into. (their country names and
 the description of the edge going into them.)
 
 
+	SELECT node1.NODEID1, node1.country_name, edge1.Unique_ID, edge1.Entity_ID1, edge1.description_  
+	FROM (SELECT Unique_ID, Entity_ID1, Entity_ID2, description_ 
+	FROM edges_1DNW
+	WHERE direction = 1) AS edge1
+	LEFT JOIN node_countriesNW AS node1
+	ON node1.NODEID1 = edge1.Entity_ID1
+	LIMIT 10;
+
+
 +---------+--------------+-----------+------------+-------------------------------+
 | NODEID1 | country_name | Unique_ID | Entity_ID1 | description_                  |
 +---------+--------------+-----------+------------+-------------------------------+
@@ -199,7 +208,20 @@ the description of the edge going into them.)
 |  119238 | Hong Kong    |    445091 |     119238 | Master Client                 |
 +---------+--------------+-----------+------------+-------------------------------+
 
+
+
 TOP 20 COUNTIRES FOR TRANSACTIONS GOING IN:
+
+	SELECT node1.country_name, COUNT(node1.country_name) as counts
+	FROM (SELECT Entity_ID2
+	FROM edges_1DNW
+	WHERE direction = 1 LIMIT 15000) AS edge1
+	LEFT JOIN node_countriesNW AS node1
+	ON node1.NODEID1 = edge1.Entity_ID2
+	GROUP BY node1.country_name
+	ORDER BY counts DESC
+	LIMIT 20;
+
 
 +------------------------+--------+
 | country_name           | counts |
@@ -226,7 +248,20 @@ TOP 20 COUNTIRES FOR TRANSACTIONS GOING IN:
 | Czech Republic         |     23 |
 +------------------------+--------+
 
+
+
 TOP 20 COUNTRIES TRANSACTIONS GOING OUT, those likely to be seeking safe-havens:
+
+
+	SELECT node1.country_name, COUNT(node1.country_name) as counts
+	FROM (SELECT Entity_ID1
+	FROM edges_1DNW
+	WHERE direction = 1 LIMIT 15000) AS edge1
+	LEFT JOIN node_countriesNW AS node1
+	ON node1.NODEID1 = edge1.Entity_ID1
+	GROUP BY node1.country_name
+	ORDER BY counts DESC
+	LIMIT 20;
 
 +------------------------+--------+
 | country_name           | counts |
@@ -252,6 +287,184 @@ TOP 20 COUNTRIES TRANSACTIONS GOING OUT, those likely to be seeking safe-havens:
 | Cook Islands           |     94 |
 | Jersey                 |     76 |
 +------------------------+--------+
+
+# Question 4: HOW MANY DISTINCT POSITIONS/ROLES CAN EDGES HAVE?
+	
+	SELECT DISTINCT(description_) FROM edges_1DNW;
+
+
++-------------------------------+
+| description_                  |
++-------------------------------+
+| Assistant Secretary           |
+| Auditor                       |
+| Authorised Person / Signatory |
+| Bank Signatory                |
+| Beneficial Owner              |
+| Beneficiary                   |
+| Correspondent Addr.           |
+| Co-Trustee of Trust           |
+| Director                      |
+| Investment Advisor            |
+| Legal Advisor                 |
+| Master Client                 |
+| Nominated Person              |
+| Nominee Beneficial Owner      |
+| Nominee Beneficiary           |
+| Nominee Director              |
+| Nominee Investment Advisor    |
+| Nominee Protector             |
+| Nominee Secretary             |
+| Nominee Shareholder           |
+| Nominee Trust Settlor         |
+| Officer                       |
+| Partner                       |
+| President                     |
+| Protector                     |
+| Records & Registers           |
+| registered address            |
+| related company               |
+| Secretary                     |
+| Shareholder                   |
+| Trust Settlor                 |
+| Trustee of Trust              |
+| Alternate Director            |
+| Auth. Representative          |
+| Joint Settlor                 |
+| General Accountant            |
+| Appointor                     |
+| Unit Trust Register           |
+| Resident Director             |
+| Stockbroker                   |
+| Treasurer                     |
+| Vice President                |
+| Successor Protector           |
+| Personal Directorship         |
+| Tax Advisor                   |
+| Chairman                      |
+| Safekeeping                   |
+| Reserve Director              |
+| Nominee Name                  |
+| Register of Director          |
+| Register of Shareholder       |
+| Custodian                     |
+| Board Representative          |
++-------------------------------+
+
+# Question 5: Which individuals/companies have the most outgoing transactions and
+              which countries they operate in?
+
+	SELECT Entity_ID1, counts, Description_, country_name
+	FROM(
+	SELECT Entity_ID1, counts, Description_ 
+	FROM (SELECT Entity_ID1, COUNT(*) AS counts FROM edges_1DNW
+	WHERE direction = 1
+	GROUP BY Entity_ID1
+	ORDER BY counts DESC
+	LIMIT 20) AS entities
+	LEFT JOIN nodesNW AS node
+	ON entities.Entity_ID1 = node.Unique_ID
+	LIMIT 10)AS entities2
+	LEFT JOIN node_countriesNW AS countries
+	ON entities2.Entity_ID1 = countries.NODEID1
+	ORDER BY entities2.counts DESC;
+
++------------+--------+----------------------------------------+------------------------+
+| Entity_ID1 | counts | Description_                           | country_name           |
++------------+--------+----------------------------------------+------------------------+
+|      54662 |  36373 | Portcullis TrustNet (BVI) Limited      | Indonesia              |
+|      54662 |  36373 | Portcullis TrustNet (BVI) Limited      | Thailand               |
+|      54662 |  36373 | Portcullis TrustNet (BVI) Limited      | British Virgin Islands |
+|      54662 |  36373 | Portcullis TrustNet (BVI) Limited      | Singapore              |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | China                  |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | Singapore              |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | Samoa                  |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | United Kingdom         |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | Kenya                  |
+|      96909 |   4270 | Portcullis TrustNet (Samoa) Limited    | Taiwan                 |
+|     294268 |   3339 | Offshore Business Consultant (HK) Ltd. | Hong Kong              |
+|      75595 |   2694 | Sharecorp Limited                      | United Arab Emirates   |
+|      75595 |   2694 | Sharecorp Limited                      | Canada                 |
+|      75595 |   2694 | Sharecorp Limited                      | Japan                  |
+|      75595 |   2694 | Sharecorp Limited                      | Philippines            |
+|      75595 |   2694 | Sharecorp Limited                      | Switzerland            |
+|      75595 |   2694 | Sharecorp Limited                      | United States          |
+|      75595 |   2694 | Sharecorp Limited                      | Australia              |
+|      75595 |   2694 | Sharecorp Limited                      | Sri Lanka              |
+|      75595 |   2694 | Sharecorp Limited                      | China                  |
+|      75595 |   2694 | Sharecorp Limited                      | Guernsey               |
+|      75595 |   2694 | Sharecorp Limited                      | Indonesia              |
+|      75595 |   2694 | Sharecorp Limited                      | India                  |
+|      75595 |   2694 | Sharecorp Limited                      | Malaysia               |
+|      75595 |   2694 | Sharecorp Limited                      | Spain                  |
+|      75595 |   2694 | Sharecorp Limited                      | Turkey                 |
+|      75595 |   2694 | Sharecorp Limited                      | Taiwan                 |
+|      75595 |   2694 | Sharecorp Limited                      | United Kingdom         |
+|      75595 |   2694 | Sharecorp Limited                      | Djibouti               |
+|      75595 |   2694 | Sharecorp Limited                      | Germany                |
+|      75595 |   2694 | Sharecorp Limited                      | Hong Kong              |
+|      75595 |   2694 | Sharecorp Limited                      | Italy                  |
+|      75595 |   2694 | Sharecorp Limited                      | Kazakhstan             |
+|      75595 |   2694 | Sharecorp Limited                      | Mauritius              |
+|      75595 |   2694 | Sharecorp Limited                      | Thailand               |
+|      75595 |   2694 | Sharecorp Limited                      | Greece                 |
+|      75595 |   2694 | Sharecorp Limited                      | South Korea            |
+|      75595 |   2694 | Sharecorp Limited                      | Russia                 |
+|      75595 |   2694 | Sharecorp Limited                      | Singapore              |
+|      75595 |   2694 | Sharecorp Limited                      | British Virgin Islands |
+|      75595 |   2694 | Sharecorp Limited                      | Not identified         |
+|      58922 |   2349 | Portcullis TrustNet (Samoa) Limited    | Indonesia              |
+|      58922 |   2349 | Portcullis TrustNet (Samoa) Limited    | Samoa                  |
+|     298166 |   1722 | Kuzniecky & Co.                        | Panama                 |
+|     298147 |   1612 | International Offshore Services Group  | Ireland                |
+|     295141 |   1453 | Ready-Made Registrations Limited       | Hong Kong              |
+|      56917 |   1274 | Trustcorp Limited                      | Hong Kong              |
+|      56917 |   1274 | Trustcorp Limited                      | United Kingdom         |
+|      56917 |   1274 | Trustcorp Limited                      | United States          |
+|      56917 |   1274 | Trustcorp Limited                      | Cook Islands           |
+|      56917 |   1274 | Trustcorp Limited                      | Japan                  |
+|      56917 |   1274 | Trustcorp Limited                      | Thailand               |
+|      56917 |   1274 | Trustcorp Limited                      | British Virgin Islands |
+|      56917 |   1274 | Trustcorp Limited                      | Singapore              |
+|      56917 |   1274 | Trustcorp Limited                      | Not identified         |
+|     298020 |   1218 | Lotus Holding Company Limited          | Latvia                 |
++------------+--------+----------------------------------------+------------------------+
+
+# QUESTION 6: WHICH COMPANIES/INDIVIDUALS ARE INVOLVED THE MOST?
+
+	SELECT Description_, COUNT(*) AS counts FROM nodesNW
+	GROUP BY Description_
+	ORDER BY counts DESC
+	LIMIT 20;
+
++--------------------------------------+--------+
+| Description_                         | counts |
++--------------------------------------+--------+
+| Bearer 1                             |   2654 |
+| Bearer                               |    693 |
+| The Bearer                           |    430 |
+| CASCADO AG                           |    270 |
+| International Administrators Limited |    212 |
+| Company Kit Nominees Inc.            |    101 |
+| Bearer 2                             |     79 |
+| Suomenlinna Inter Oy                 |     64 |
+|                                      |     61 |
+| Olavinlinna Invest Oy                |     55 |
+| Matthew Charles Stokes               |     44 |
+| Bolsdoto Holdings Limited            |     44 |
+| Management Group Limited             |     43 |
+| Eurotrade Nominees Ltd.              |     40 |
+| Raul Garrido Garibaldo               |     39 |
+| Bearer 3                             |     38 |
+| Jesse Grant Hester                   |     37 |
+| INTEGRITY DIRECTORS LTD              |     37 |
+| Joseph Sparks                        |     36 |
+| stephen John Kelly                   |     35 |
++--------------------------------------+--------+
+
+
+
+
 
 
 
